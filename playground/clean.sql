@@ -1,0 +1,12 @@
+DROP SCHEMA public CASCADE;
+DROP SCHEMA pdb CASCADE;
+DROP SCHEMA sales CASCADE;
+DROP SCHEMA staff CASCADE;
+DROP SCHEMA logistics CASCADE;
+DROP SCHEMA inventory CASCADE;
+CREATE SCHEMA public;
+
+DROP ROLE pdb_role;
+DROP ROLE sales_role;
+DROP ROLE staff_role;
+DROP ROLE logistics_role;

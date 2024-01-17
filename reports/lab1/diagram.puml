@@ -1,0 +1,115 @@
+@startuml
+
+hide circle
+hide methods
+skinparam linetype ortho
+
+' Согласно roskod.ru (https://roskod.ru/shtrihkodirovanie/)
+' Часто используются штрих-коды:
+' - для малых товаров (карандаши, сигареты): EAN 8
+' - для остальных: EAN 13
+' Оба совместимы с UPC (другим популярным стандартом)
+' Различаются только количеством цифр
+' Задаются предприятием!
+
+' Товар - штрих-код и некоторая информация о нем
+entity "Product type" as prod_t {
+    * **code** : number <<EAN 8 либо EAN 13>>
+    * vendor : number
+    * category : number
+    * raise : number <<наценка>>
+}
+
+entity "Vendor" as vendor {
+    * **id** : number
+    * name : text
+    * office : text <<адрес главного офиса>>
+    * rating : number <<прошлая выгода от сотрудничества>>
+}
+
+prod_t }|--|| vendor
+
+' Категория товара (ручки, карадаши, пишушие - любая классификация, зависит от оборота)
+entity "Category" as category {
+    * **id** : number
+    * name : text
+}
+
+prod_t }|--|| category
+
+' Конкретное изделие
+entity "Product" as prod {
+    * **id** : number
+    * type : number <<товар>>
+    * country : number <<страна производства>>
+    * price : number <<цена по которой это изделие было куплено>>
+    * supply : number <<поставка>>
+    * sold : bool
+    * sale : number <<продажа>>
+}
+
+prod }o--|| prod_t
+
+' Страна производства
+entity "Country" as country {
+    * **id** : number
+    * name : text
+}
+
+prod }|--|| country
+
+entity "Supply" as supply {
+    * **id** : number
+    * date : date
+    * done : bool <<успешно завершена>>
+    * employee : number <<ответственный рабочий>>
+    * price : number <<расходы на доставку>>
+}
+
+prod }|--||supply
+
+' Рабочий (бывший или текущий)
+entity "Employee" as employee {
+    * **id** : number
+    * job : number
+    * name : text
+    * active : bool <<нанят ли рабочий>>
+    * exp_date : timestamp <<дата истечения трудового договора>>
+}
+
+employee ||-- supply
+
+' Должность; Может быть свободна или занята несколькими сотрудниками
+entity "Job" as job {
+    * **id** : number
+    * name : text
+    * salary : number
+    * days_per_week : number
+}
+
+employee }o--|| job
+
+' Чек
+' Бонусы можно обнулять при достижении какой либо даты
+entity "Sale" as sale {
+    * **id** : number
+    * date : timestamp
+    * employee : number <<кассир>>
+    * customer : number <<покупатель, при наличии>>
+    * bonus : number <<начисленные бонусы за покупку>>
+    * bonus_used : number <<потраченные бонусы>>
+}
+
+employee ||-- sale
+prod }|--o| sale
+
+entity "Customer" as customer {
+    * **id** : number
+    * phone : number
+    * name : number
+    * reg_date : timestamp <<дата регистрации>>
+}
+
+customer ||-- sale
+
+@enduml
