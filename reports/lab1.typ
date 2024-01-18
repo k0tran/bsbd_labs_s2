@@ -153,3 +153,10 @@ SELECT salary, days_per_week FROM sales.employee;
 
 #let text = read("../playground/setup.sql")
 #raw(text, lang: "sql")
+
+#endhead[Приложение B]
+
+Код для заполенния таблицы
+
+#let text = read("../playground/fill.sql")
+#raw(text, lang: "sql")
