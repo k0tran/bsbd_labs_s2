@@ -37,6 +37,11 @@ CREATE DATABASE mydb;
 
 #pagebreak()
 
+// Костыль что бы заголовки были без номера
+#set heading(numbering: (..numbers) =>
+  if numbers.pos().len() <= 0 { return "" }
+)
+
 #endhead[Заключение]
 
 В данной лабораторной работе были рассмотрены основные аспекты работы с кластером postgres. Продемострирован способ работы в рамках docker контейнера.
